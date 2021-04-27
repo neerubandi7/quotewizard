@@ -15,7 +15,7 @@ namespace TechLibrary.Services
         Task<BookResponse> GetBooksAsync(int? pageNo, int pageSize, string filterColumnName = "", string filterValue = "", string sortField = "", string sortType = "");
         Task<Book> GetBookByIdAsync(int bookid);
         Task<bool> CreateBook(Book request);
-        Task<bool> UpdateBook(Book request);
+        Task<bool> UpdateBook(BookData request);
     }
 
     public class BookService : IBookService
@@ -35,8 +35,7 @@ namespace TechLibrary.Services
             if (string.IsNullOrEmpty(filterColumnName) && !string.IsNullOrEmpty(filterValue))
             {
                 queryable = queryable.Where(i => i.Title.Contains(filterValue)
-                || i.ShortDescr.Contains(filterValue)
-                || i.LongDescr.Contains(filterValue));
+                || i.ShortDescr.Contains(filterValue));
             }
 
             for (int index = 0; index < filterColumnName.Split(',').Length; index++)
@@ -106,7 +105,7 @@ namespace TechLibrary.Services
             var totalCount = queryable.Count();
 
             queryable = queryable.Skip(pageSize * (pageNo == null ? 0 : (pageNo.Value -1))).Take(pageSize);
-            
+           
             var response = new BookResponse
             {
                 Data = _mapper.Map<List<BookData>>(await queryable.ToListAsync()),
@@ -127,16 +126,17 @@ namespace TechLibrary.Services
             _dataContext.Books.Add(request);
             return await _dataContext.SaveChangesAsync() > 0;
         }
-        public async Task<bool> UpdateBook(Book request)
+        public async Task<bool> UpdateBook(BookData request)
         {
             var book = _dataContext.Books.FirstOrDefault(x => x.BookId == request.BookId);
             book.ISBN = request.ISBN;
-            book.LongDescr = request.ISBN;
-            book.ShortDescr = request.ShortDescr;
+            //book.LongDescr = request.Descr;
+            book.ShortDescr = request.Descr;
             book.ThumbnailUrl = request.ThumbnailUrl;
             book.Title = request.Title;
             book.PublishedDate = request.PublishedDate;
-            return _dataContext.SaveChanges() > 0;
+            return await _dataContext.SaveChangesAsync() > 0;
         }
     }
 }
+

@@ -187,7 +187,7 @@ export default {
         });
     },
     pageChange(pageNo) {
-      if (pageNo * 10 < this.totalRecordsCount) {
+      if ((pageNo-1) * 10 < this.totalRecordsCount) {
         this.optionsObj.pageNo = pageNo;
         this.getBackendData();
       }

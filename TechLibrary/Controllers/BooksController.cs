@@ -44,9 +44,7 @@ namespace TechLibrary.Controllers
 
             var book = await _bookService.GetBookByIdAsync(id);
 
-            var bookResponse = _mapper.Map<BookResponse>(book);
-
-            return Ok(bookResponse);
+            return Ok(book);
         }
         [HttpPost]
         public async Task<IActionResult> SaveBook(Book request)
@@ -56,7 +54,7 @@ namespace TechLibrary.Controllers
             return Ok(true);
         }
         [HttpPut]
-        public async Task<IActionResult> Update(Book request)
+        public async Task<IActionResult> Update(BookData request)
         {
             //if (request.BookId == 0 || _bookService.GetBookByIdAsync(request.BookId).Result==null)
             //{
@@ -68,3 +66,4 @@ namespace TechLibrary.Controllers
         }
     }
 }
+
