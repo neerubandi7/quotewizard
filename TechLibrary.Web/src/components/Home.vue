@@ -124,7 +124,7 @@ export default {
   methods: {
     saveEditedRow(row) {
       axios.put(`https://localhost:5001/books`, row).then(r => {
-        console.log(r);
+        //console.log(r);
         this.editMode = false;
         this.id = null;
         this.currentPage = 1;
@@ -145,9 +145,9 @@ export default {
       this.id = row.bookId;
       this.editMode = true;
     },
-    updateRow(id) {
-      console.log(id);
-    },
+    //updateRow(id) {
+      //console.log(id);
+    //},
     addBook() {
       this.$router.push("/add");
     },
@@ -175,7 +175,7 @@ export default {
       return finalParams;
     },
     getBackendData() {
-      console.log(this.optionsObj);
+      //console.log(this.optionsObj);
       let finalparams = this.paramStringify(this.optionsObj);
       axios
         .get(`https://localhost:5001/books${finalparams}`)
@@ -193,7 +193,7 @@ export default {
       }
     },
     sortChanged() {
-      console.log(this.sortBy, "test sort", this.sortDesc);
+      //console.log(this.sortBy, "test sort", this.sortDesc);
       this.optionsObj.sortType = this.sortDesc ? "asc" : "desc";
       this.optionsObj.sortField = this.sortBy;
       this.optionsObj.pageNo = 1;
